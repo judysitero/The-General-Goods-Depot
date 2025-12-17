@@ -5,10 +5,7 @@ import org.yearup.data.CategoryDao;
 import org.yearup.models.Category;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +22,8 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
 
         try (Connection connection = getConnection())
         {
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet row = statement.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet row = preparedStatement.executeQuery();
 
             while (row.next())
             {
@@ -48,10 +45,10 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
 
         try (Connection connection = getConnection())
         {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, categoryId);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, categoryId);
 
-            ResultSet row = statement.executeQuery();
+            ResultSet row = preparedStatement.executeQuery();
 
             if (row.next())
             {
@@ -70,19 +67,71 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
     public Category create(Category category)
     {
         // create a new category
+        String query = "INSERT INTO categories (name, description) VALUES (?, ?)";
+
+        try (Connection connection = getConnection())
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, category.getName());
+            preparedStatement.setString(2, category.getDescription());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0)
+            {
+                // Retrieve the generated key (the new ID)
+                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                if (generatedKeys.next())
+                {
+                    int newId = generatedKeys.getInt(1);
+                    category.setCategoryId(newId);
+                    return category;
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 
     @Override
-    public void update(int categoryId, Category category)
-    {
+    public void update(int categoryId, Category category) {
         // update category
+        String sql = "UPDATE categories SET name = ?, description = ? WHERE category_id = ?";
+
+        try (Connection connection = getConnection())
+        {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, category.getName());
+            statement.setString(2, category.getDescription());
+            statement.setInt(3, categoryId);
+
+            statement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void delete(int categoryId)
-    {
+    public void delete(int categoryId) {
         // delete category
+        String sql = "DELETE FROM categories WHERE category_id = ?";
+
+        try (Connection connection = getConnection())
+        {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, categoryId);
+
+            statement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     private Category mapRow(ResultSet row) throws SQLException

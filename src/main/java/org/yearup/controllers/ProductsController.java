@@ -75,13 +75,20 @@ public class ProductsController
         }
     }
 
+    /// Bug 2!
+
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateProduct(@PathVariable int id, @RequestBody Product product)
     {
         try
         {
-            productDao.create(product);
+            /// The controller is calling productDao.create(product) inside the updateProduct method!
+            ///so this means every time I try to "update" a product (PUT request), it ignores the ID and just creates a new one instead.
+            //productDao.create(product); // <--- THE BUG!
+
+            // FIXED: Call update() instead of create()
+            productDao.update(id, product);
         }
         catch(Exception ex)
         {
