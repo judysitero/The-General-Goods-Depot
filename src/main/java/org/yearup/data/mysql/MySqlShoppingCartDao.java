@@ -48,7 +48,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
         return cart;
     }
     @Override
-    public void addItem(int userId, int productId, int quantity) {
+    public void addItemToCart(int userId, int productId, int quantity) {
         String query = "INSERT INTO shopping_cart (user_id, product_id, quantity) " +
                 "VALUES (?, ?, ?) " +
                 "ON DUPLICATE KEY UPDATE quantity = quantity + ?";
@@ -67,11 +67,11 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
     }
     @Override
     public void updateQuantity(int userId, int productId, int quantity) {
-        String sql = "UPDATE shopping_cart SET quantity = ? " +
+        String query = "UPDATE shopping_cart SET quantity = ? " +
                 "WHERE user_id = ? AND product_id = ?";
 
         try (Connection connection = getConnection()) {
-            PreparedStatement preparedstatement = connection.prepareStatement(sql);
+            PreparedStatement preparedstatement = connection.prepareStatement(query);
             preparedstatement.setInt(1, quantity);
             preparedstatement.setInt(2, userId);
             preparedstatement.setInt(3, productId);
@@ -82,11 +82,11 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
         }
     }
     @Override
-    public void clearCart(int userId) {
-        String sql = "DELETE FROM shopping_cart WHERE user_id = ?";
+    public void deleteFromCart(int userId) {
+        String query = "DELETE FROM shopping_cart WHERE user_id = ?";
 
         try (Connection connection = getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, userId);
 
             statement.executeUpdate();
