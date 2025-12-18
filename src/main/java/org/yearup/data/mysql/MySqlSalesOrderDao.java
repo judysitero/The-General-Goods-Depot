@@ -39,6 +39,7 @@ public class MySqlSalesOrderDao extends MySqlDaoBase implements SalesOrderDao {
 
             // 2. Get the new Order ID
             int newOrderId = -1;
+
             ResultSet keys = statement.getGeneratedKeys();
             if (keys.next()) {
                 newOrderId = keys.getInt(1);
@@ -58,11 +59,11 @@ public class MySqlSalesOrderDao extends MySqlDaoBase implements SalesOrderDao {
                 itemStatement.setInt(4, cartItem.getQuantity());
                 itemStatement.setBigDecimal(5, BigDecimal.ZERO);
 
-                itemStatement.addBatch(); // Prepare a batch insert
+                itemStatement.addBatch();
             }
-            itemStatement.executeBatch(); // Run all inserts at once
+            itemStatement.executeBatch();
 
-            // 4. Return the new Order object (simplified)
+            // 4. Return the new Order object
             SalesOrder newOrder = new SalesOrder();
             newOrder.setOrderId(newOrderId);
             newOrder.setOrderDate(LocalDateTime.now());
