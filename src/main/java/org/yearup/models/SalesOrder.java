@@ -9,20 +9,20 @@ public class SalesOrder {
     private String shippingAddress;
     private String city;
     private String state;
-    private String zipCode;
+    private String zip;
     private BigDecimal shippingCost;
     private LocalDateTime orderDate;
 
     public SalesOrder() {
     }
 
-    public SalesOrder(int orderId, int userId, String shippingAddress, String city, String state, String zipCode, BigDecimal shippingCost, LocalDateTime orderDate) {
+    public SalesOrder(int orderId, int userId, String shippingAddress, String city, String state, String zip, BigDecimal shippingCost, LocalDateTime orderDate) {
         this.orderId = orderId;
         this.userId = userId;
         this.shippingAddress = shippingAddress;
         this.city = city;
         this.state = state;
-        this.zipCode = zipCode;
+        this.zip = zip;
         this.shippingCost = shippingCost;
         this.orderDate = orderDate;
     }
@@ -67,12 +67,12 @@ public class SalesOrder {
         this.state = state;
     }
 
-    public String getZipCode() {
-        return zipCode;
+    public String getZip() {
+        return zip;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
     public BigDecimal getShippingCost() {

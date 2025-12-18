@@ -70,7 +70,7 @@ public class MySqlSalesOrderDao extends MySqlDaoBase implements SalesOrderDao {
             newOrder.setShippingAddress(profile.getAddress());
             newOrder.setCity(profile.getCity());
             newOrder.setState(profile.getState());
-            newOrder.setZipCode(profile.getZip());
+            newOrder.setZip(profile.getZip());
             newOrder.setShippingCost(BigDecimal.ZERO);
             return newOrder;
 
