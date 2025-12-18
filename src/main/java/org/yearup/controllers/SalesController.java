@@ -19,7 +19,6 @@ import org.yearup.models.User;
 
 import java.security.Principal;
 
-public class SalesController {
     @RestController
     @RequestMapping("orders") // URL stays "orders" to match the frontend/book requirements
     @CrossOrigin
@@ -68,5 +67,4 @@ public class SalesController {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Checkout failed");
             }
         }
-    }
 }
