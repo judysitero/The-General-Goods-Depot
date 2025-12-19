@@ -1,4 +1,4 @@
-# 📦The General Goods Depot (E-Commerce API - Capstone Project)
+# 📦Nest & Tech  (E-Commerce API - Capstone Project)
 A full-stack e-commerce application built with Java Spring Boot and MySQL. This API handles the complete online shopping experience, from browsing products and categories to managing user carts and processing secure checkouts.
 # 📁 Project Structure
 <img width="348" height="1072" alt="image" src="https://github.com/user-attachments/assets/1a851de6-88f3-47c4-a2b1-58aac5366d72" />
@@ -45,9 +45,9 @@ A full-stack e-commerce application built with Java Spring Boot and MySQL. This 
 
 
 # 🐛 Bug Fixes Highlight
-Bug 1: Product Search
-Problem: Search was ignoring max price and had incorrect comparison logic.
-Solution: Fixed SQL query to properly handle both min and max price ranges.
+**Bug 1:** Product Search
+**Problem:** Search was ignoring max price and had incorrect comparison logic.
+**Solution:** Fixed SQL query to properly handle both min and max price ranges.
 
 <img width="715" height="135" alt="image" src="https://github.com/user-attachments/assets/f2435c0d-1326-46f1-beda-520521e99614" />
 
@@ -56,6 +56,50 @@ Problem: PUT request to update products was calling create() instead of update()
 Solution: Fixed controller to call correct DAO method.
 <img width="1141" height="195" alt="image" src="https://github.com/user-attachments/assets/7238e8da-1c8c-4335-913f-9613d853861c" />
 
+# 🎯 Key Code Snippets
+ ## MySqlSalesOrderDao.create()
+<img width="985" height="918" alt="image" src="https://github.com/user-attachments/assets/1e8ed2eb-7f7b-474c-847f-7bf5e0a33f43" />
+
+This is the create() method in MySqlSalesOrderDao that handles checkout. It's interesting because it performs a complete transaction:
+1. First, it inserts the order and gets the auto-generated order ID
+2. Then it batch inserts all cart items as order line items
+3. Everything happens in one database transaction   
+**Why this matters:**  If inserting line items fails after creating the order, we'd have a corrupt order. This ensures all-or-nothing completion. It's a real-world example of ensuring data consistency in e-commerce.
+
+
+# 💻Webrowser Snippets 
+## Homepage
+<img width="1891" height="952" alt="image" src="https://github.com/user-attachments/assets/e4308b0f-a2dc-4e01-a17c-d737e81c58cb" />
+
+## Profile
+<img width="1893" height="877" alt="image" src="https://github.com/user-attachments/assets/2d543698-7762-4da8-91b9-a7b2a5f310df" />
+
+## View Cart 
+<img width="1906" height="940" alt="image" src="https://github.com/user-attachments/assets/6c3a5faf-91e0-4a2b-84d4-d7a22b9e85c5" />
+
+
+# 👥 Roles & Permissions
+* **ADMIN:** Full access to all endpoints
+* **USER:** Can browse, add to cart, checkout, and manage profile
+* **GUEST:** Can only browse products
+
+# 🚧 Future Enhancements
+
+* Checkout button works in the browser
+* Better designing 
+* Order Tracking
+* Payment Integration
+* Email Notifications
+* Product Recommendations
+* Discount Codes & Promotions
+* Product Reviews & Ratings
+* Wishlist Functionality
+
+
+# 👨‍💻 Author
+Judy Sitero 
+
+GitHub: @judysitero
 
 
 
