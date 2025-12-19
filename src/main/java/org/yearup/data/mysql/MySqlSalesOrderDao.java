@@ -45,6 +45,7 @@ public class MySqlSalesOrderDao extends MySqlDaoBase implements SalesOrderDao {
                 newOrderId = keys.getInt(1);
             }
 
+            // 3. Batch insert all order line items
             String itemSql = "INSERT INTO order_line_items (order_id, product_id, sales_price, quantity, discount) " +
                     "VALUES (?, ?, ?, ?, ?)";
 
